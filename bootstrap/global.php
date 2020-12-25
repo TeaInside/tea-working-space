@@ -2,8 +2,7 @@
 
 function myInternalAutoloader($class)
 {
-  $class = str_replace("\\", "/", $class);
-  if (file_exists($f = BASE_PATH."/src/classes/".$class.".php")) {
+  if (file_exists($f = BASE_PATH."/src/classes/".str_replace("\\", "/", $class).".php")) {
     require $f;
   }
 }

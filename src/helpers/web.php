@@ -11,6 +11,17 @@ function load_view(string $__name, array $__vars = [])
   require VIEW_PATH."/".$__name.".php";
 }
 
+/**
+ * @param string $__name
+ * @param array  $__vars
+ * @return mixed
+ */
+function load_api(string $__name, array $__vars = [])
+{
+  extract($__vars);
+  require API_PATH."/".$__name.".php";
+}
+
 
 /**
  * @param string $str
