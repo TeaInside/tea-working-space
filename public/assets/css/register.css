@@ -1,0 +1,31 @@
+
+.main-cage {
+  text-align: center;
+}
+.register-cage {
+  margin: auto;
+  margin-top: 100px;
+  margin-bottom: 150px;
+  border: 1px solid #000;
+  width: 450px;
+  height: 450px;
+}
+.reg-form-table {
+  margin: auto;
+}
+.req-span {
+  color: red;
+}
+
+.reg-form-table td {
+  text-align: left;
+}
+
+.td-tcenter {
+  text-align: center !important;
+}
+
+.submit-cage {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
