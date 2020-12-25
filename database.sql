@@ -44,7 +44,7 @@ DROP TABLE IF EXISTS `ugroup_channels`;
 CREATE TABLE `ugroup_channels` (
   `ugroup_channel_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `ugroup_id` bigint(20) unsigned NOT NULL,
-  `channel_name` varchar(64) CHARACTER SET utf8 NOT NULL,
+  `name` varchar(64) CHARACTER SET utf8 NOT NULL,
   `description` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `created_by` bigint(20) unsigned DEFAULT NULL,
   `created_at` datetime NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE `ugroup_channels` (
   KEY `created_by` (`created_by`),
   KEY `created_at` (`created_at`),
   KEY `ugroup_id` (`ugroup_id`),
-  KEY `channel_name` (`channel_name`),
+  KEY `channel_name` (`name`),
   FULLTEXT KEY `description_fulltext` (`description`),
   CONSTRAINT `ugroup_channels_ibfk_2` FOREIGN KEY (`created_by`) REFERENCES `users` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `ugroup_channels_ibfk_4` FOREIGN KEY (`ugroup_id`) REFERENCES `ugroups` (`ugroup_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -91,17 +91,16 @@ CREATE TABLE `ugroup_members` (
 
 DROP TABLE IF EXISTS `ugroup_posts`;
 CREATE TABLE `ugroup_posts` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ugroup_post_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) unsigned DEFAULT NULL,
   `ugroup_id` bigint(20) unsigned NOT NULL,
   `content` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`ugroup_post_id`),
   KEY `ugroup_id` (`ugroup_id`),
   KEY `user_id` (`user_id`),
   KEY `created_at` (`created_at`),
   FULLTEXT KEY `content` (`content`),
-  CONSTRAINT `ugroup_posts_ibfk_4` FOREIGN KEY (`id`) REFERENCES `ugroup_members` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `ugroup_posts_ibfk_5` FOREIGN KEY (`ugroup_id`) REFERENCES `ugroups` (`ugroup_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `ugroup_posts_ibfk_6` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
@@ -127,4 +126,4 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 
--- 2020-12-05 10:09:42
+-- 2020-12-25 12:59:05
