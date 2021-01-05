@@ -2,7 +2,7 @@
 <html>
 <head>
   <?php load_view("template/header", ["title" => "Register"]); ?>
-  <link rel="stylesheet" type="text/css" href="assets/css/register.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/css/register.css?t=<?php echo time(); ?>"/>
 </head>
 <body>
 <div class="main-cage">
