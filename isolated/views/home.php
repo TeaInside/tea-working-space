@@ -15,13 +15,42 @@
     <div class="inl group-list">
       <h3>Group List</h3>
       <div id="group-list">
-        <div class="gl-data">
-          <div class="inlc gl-img-cg"><img class="gl-img" src=""/></div>
-          <div class="inlc gl-name">Group 1</div>
-        </div>
+        <h1>Loading...</h1>
       </div>
     </div>
     <div class="inl main-handle"></div>
   </div>
+<script type="text/javascript">
+function run_xhr(type, url, onload, data = null)
+{
+  let ch = new XMLHttpRequest;
+  ch.withCredentials = true;
+  ch.onload = onload;
+  ch.open(type, url);
+  ch.send(data);
+}
+
+function get_id(id)
+{
+  return document.getElementById(id);
+}
+
+function get_group_list() {
+  let group_list = get_id("group-list");
+  run_xhr("GET", "home.php?action=get_group_list", function () {
+    let r = "", i, j = JSON.parse(this.responseText);
+    for (i in j) {
+      r +=
+      '<div class="gl-data">'+
+        '<div class="inlc gl-img-cg"><img class="gl-img" src=""/></div>'+
+        '<div class="inlc gl-name">'+j[i].name+'</div>'+
+      '</div>';
+    }
+    group_list.innerHTML = r;
+  });
+}
+
+get_group_list();
+</script>
 </body>
 </html>
