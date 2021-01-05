@@ -1,0 +1,28 @@
+
+.main-cage {
+  background-color: #fff;
+  width: 1000px;
+  min-height: 400px;
+  text-align: center;
+  margin: auto;
+  margin-top: 40px;
+  padding: 20px;
+  margin-bottom: 70px;
+  border-radius: 3px;
+  border: 2px solid #000;
+}
+
+.btn-cage {
+  margin: 30px;
+  text-align: center;
+}
+
+.h1-cage {
+  margin-top: 10px;
+}
+
+.list-group {
+  width: 300px;
+  height: 400px;
+  border: 1px solid #000;
+}
