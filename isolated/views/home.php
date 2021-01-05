@@ -18,7 +18,15 @@
         <h1>Loading...</h1>
       </div>
     </div>
-    <div class="inl main-handle"></div>
+    <div class="inl channel-list">
+      <h3>Channel List</h3>
+      <div id="group-list">
+        <h1>Loading...</h1>
+      </div>
+    </div>
+    <div class="inl main-handle">
+      <h3>Chat</h3>
+    </div>
   </div>
 <script type="text/javascript">
 function run_xhr(type, url, onload, data = null)
@@ -43,7 +51,7 @@ function get_group_list() {
       r +=
       '<div class="gl-data">'+
         '<div class="inlc gl-img-cg"><img class="gl-img" src=""/></div>'+
-        '<div class="inlc gl-name">'+j[i].name+'</div>'+
+        '<div class="inlc gl-name">'+j[i].name+'<br/>@'+j[i].username+'</div>'+
       '</div>';
     }
     group_list.innerHTML = r;

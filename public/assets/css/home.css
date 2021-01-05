@@ -1,7 +1,7 @@
 
 .main-cage {
   background-color: #fff;
-  width: 1000px;
+  width: 1250px;
   min-height: 400px;
   text-align: center;
   margin: auto;
@@ -22,7 +22,7 @@
 }
 
 .group-list {
-  width: 300px;
+  width: 250px;
   height: 400px;
   border: 2px solid #000;
   background-color: #dbff3f;
@@ -38,7 +38,7 @@
 
 .main-handle {
   border: 2px solid #000;
-  width: 660px;
+  width: 720px;
   height: 400px;
 }
 
@@ -78,4 +78,10 @@
 
 .gl-img-cg {
   width: 50px;
+}
+
+.channel-list {
+  width: 250px;
+  border: 2px solid #000;
+  height: 400px;
 }
