@@ -2,7 +2,7 @@
 <html>
 <head>
   <?php load_view("template/header", ["title" => "Login"]); ?>
-  <link rel="stylesheet" type="text/css" href="assets/css/login.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/css/login.css?t=<?php echo time(); ?>"/>
 </head>
 <body>
   <div class="main-cage">
