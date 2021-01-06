@@ -50,6 +50,18 @@ function run_xhr(type, url, onload, data = null) {
   ch.send(data);
 }
 
+function escapeHtml(unsafe) {
+  return unsafe
+   .replace(/&/g, "&amp;")
+   .replace(/</g, "&lt;")
+   .replace(/>/g, "&gt;")
+   .replace(/"/g, "&quot;")
+   .replace(/'/g, "&#039;");
+}
+
+let act_ugroup_id = null;
+let act_ugroup_channel_id = null;
+
 function get_id(id) {
   return document.getElementById(id);
 }
@@ -62,7 +74,7 @@ function get_group_list() {
       r +=
       '<div class="gl-data" onclick="handle_group_click(this, '+j[i].ugroup_id+');">'+
         '<div class="inlc gl-img-cg"><img class="gl-img" src=""/></div>'+
-        '<div class="inlc gl-name">'+j[i].name+'<br/>@'+j[i].username+'</div>'+
+        '<div class="inlc gl-name">'+escapeHtml(j[i].name)+'<br/>@'+j[i].username+'</div>'+
       '</div>';
     }
     group_list.innerHTML = r;
@@ -79,7 +91,7 @@ function get_channel_list(id) {
       r +=
       '<div class="cl-data" onclick="handle_channel_click(this, '+j[i].ugroup_channel_id+');">'+
         '<div class="inlc gl-img-cg"><img class="gl-img" src="assets/img/hashtag.png"/></div>'+
-        '<div class="inlc gl-name">#'+j[i].name+'</div>'+
+        '<div class="inlc gl-name">#'+escapeHtml(j[i].name)+'</div>'+
       '</div>';
     }
     channel_list.innerHTML = r;
@@ -87,13 +99,15 @@ function get_channel_list(id) {
 }
 
 function get_channel_chat_list(id) {
+  let ccl = get_id("chat-chk-ls");
+  ccl.innerHTML = "<h1>Loading...</h1>";
   run_xhr("GET", "home.php?action=get_channel_chat_list&ugroup_channel_id="+id, function () {
     let json = JSON.parse(this.responseText);
     let i, r = "";
     for (i in json) {
-      r +='<div class="chat-ls"><p><b>'+json[i].sender_name+': </b>Hello World!</p></div>'
+      r +='<div class="chat-ls"><p><b>'+escapeHtml(json[i].sender_name)+': </b>'+escapeHtml(json[i].content)+'</p></div>'
     }
-    get_id("chat-chk-ls").innerHTML = r;
+    ccl.innerHTML = r;
   });
 }
 
@@ -104,6 +118,7 @@ function handle_group_click(el, id) {
   }
   el.style["background-color"] = "#d4f4cb";
   get_channel_list(id);
+  act_ugroup_id = id;
 }
 
 function handle_channel_click(el, id) {
@@ -113,6 +128,21 @@ function handle_channel_click(el, id) {
   }
   el.style["background-color"] = "#d4f4cb";
   get_channel_chat_list(id);
+  act_ugroup_channel_id = id;
+}
+
+function send_chat_data(group_id, channel_id, content) {
+  let ccl = get_id("chat-chk-ls");
+  run_xhr("POST", "home.php?action=send_chat_data&ugroup_id="+group_id+"&ugroup_channel_id="+channel_id, function () {
+    let json = JSON.parse(this.responseText);
+    ccl.innerHTML += '<div class="chat-ls"><p><b>'+escapeHtml(json.sender_name)+': </b>'+escapeHtml(json.content)+'</p></div>';
+  }, JSON.stringify({content: content}));
+}
+
+function send_chat() {
+  let ctext = get_id("chat_text");
+  send_chat_data(act_ugroup_id, act_ugroup_channel_id, ctext.value);
+  ctext.value = "";
 }
 
 function open_home() {
