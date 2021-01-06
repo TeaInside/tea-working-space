@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <?php load_view("template/header", ["title" => "Login"]); ?>
+  <?php load_view("template/header", ["title" => "Home"]); ?>
   <link rel="stylesheet" type="text/css" href="assets/css/home.css?t=<?php echo time(); ?>"/>
 </head>
 <body>
