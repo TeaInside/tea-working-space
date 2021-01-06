@@ -4,5 +4,6 @@
 *.tmp
 *.log
 *.lock
+/query.txt
 /config.php
 /.phpintel/
