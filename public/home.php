@@ -7,7 +7,14 @@ if (isset($_SESSION["user_id"])) {
     load_api("home");
     exit;
   }
-  load_view("home");
+
+  $userId = $_SESSION["user_id"];
+  $pdo = DB::pdo();
+  $st  = $pdo->prepare("SELECT CONCAT(first_name,' ',last_name) AS name FROM users WHERE user_id = ?");
+  $st->execute([$userId]);
+  $r = $st->fetch(PDO::FETCH_ASSOC);
+  unset($st, $pdo);
+  load_view("home", ["name" => $r["name"]]);
 } else {
   header("Location: /login.php");
   exit;

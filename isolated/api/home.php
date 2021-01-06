@@ -69,6 +69,12 @@ function get_channel_chat_list() {
     exit;
   }
 
+  if (isset($_GET["last_chat_id"]) && is_string($_GET["last_chat_id"])) {
+    $lastChatId = $_GET["last_chat_id"];
+  } else {
+    $lastChatId = 0;
+  }
+
   $userId = $_SESSION["user_id"];
   $pdo    = DB::pdo();
   $st     = $pdo->prepare(
@@ -79,10 +85,10 @@ INNER JOIN users AS b ON b.user_id = a.sender_id
 INNER JOIN ugroup_channels AS c ON c.ugroup_channel_id = a.ugroup_channel_id
 INNER JOIN ugroups AS d ON d.ugroup_id = c.ugroup_id
 INNER JOIN ugroup_members AS e ON e.ugroup_id = d.ugroup_id
-WHERE e.user_id = ? AND a.ugroup_channel_id = ?
+WHERE e.user_id = ? AND a.ugroup_channel_id = ? AND a.ugroup_channel_msg_id > ?
 ORDER BY a.ugroup_channel_msg_id ASC"
 );
-  $st->execute([$userId, $_GET["ugroup_channel_id"]]);
+  $st->execute([$userId, $_GET["ugroup_channel_id"], $lastChatId]);
   return $st->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -118,17 +124,19 @@ function send_chat_data() {
   $st     = $pdo->prepare("INSERT INTO ugroup_channel_msg (ugroup_channel_id, sender_id, content, created_at) VALUES (?, ?, ?, ?)");
   $st->execute([
     $_GET["ugroup_channel_id"],
-    $_GET["ugroup_id"],
+    $userId,
     $json["content"],
     $now = date("Y-m-d H:i:s")
   ]);
+
+  $chatId = $pdo->lastInsertId();
 
   $st = $pdo->prepare("SELECT CONCAT(first_name, ' ', last_name) AS sender_name FROM users WHERE user_id = ?");
   $st->execute([$userId]);
   $r = $st->fetch(PDO::FETCH_NUM);
 
   return [
-    "id"      => $pdo->lastInsertId(),
+    "id"      => $chatId,
     "content" => $json["content"],
     "sender_name" => $r[0],
     "created_at" => $now
